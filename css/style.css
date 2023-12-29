@@ -1,0 +1,43 @@
+:root{
+    --bg-color:rgb(36, 53, 63);
+}
+.w-45{
+    width: 43%;
+}
+.shadow-box{
+    box-shadow: rgb(0, 0, 0) -5px 2px 54px -9px;
+}
+
+body{
+    background-color: var(--bg-color);
+}
+
+section .container{
+    background-color: var(--bg-color);
+}
+
+
+h1{
+    color: #17a2b8;
+}
+input{
+    background-color: transparent !important;
+    color: #fff !important;
+}
+input::placeholder {
+    color: #B6B6B6 !important;
+}
+  
+input::-ms-input-placeholder { 
+    color: #B6B6B6 !important;
+}
+p{
+    color: white;
+}
+p a{
+    color: white;
+    text-decoration: none;
+}
+p a:hover{
+    text-decoration: underline;
+}
