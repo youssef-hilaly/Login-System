@@ -22,12 +22,11 @@ if (localStorage.getItem('users')) {
 }
 
 //  Sign up function
-
-function clearRegister(){
-    registerName.value = '';
-    registerEmail.value = '';
-    registerPassword.value = '';
+function validateEmail(email){
+    var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    return re.test(email);
 }
+
 function isEmailExist(email){
     for(var i = 0; i < users.length; i++){
         if(users[i].email == email){
@@ -35,6 +34,21 @@ function isEmailExist(email){
         }
     }
     return false;
+}
+
+function validateUserName(name){
+    return name.length >= 3;
+}
+
+function isStrongPassword(password){
+    var re = /^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]{6,}$/g
+    return re.test(password);
+}
+
+function clearRegister(){
+    registerName.value = '';
+    registerEmail.value = '';
+    registerPassword.value = '';
 }
 
 function register(){
@@ -51,6 +65,34 @@ function register(){
         return;
     }
 
+    if(!validateEmail(email)){
+        message.classList.remove('d-none');
+        message.classList.add('d-block');
+        message.style.color = 'red'
+        message.innerHTML = 'email is not valid'
+
+        return;
+    }
+
+    if(!validateUserName(name)){
+        message.classList.remove('d-none');
+        message.classList.add('d-block');
+        message.style.color = 'red'
+        message.innerHTML = 'name must be at least 3 characters'
+
+        return;
+    }
+
+    if(!isStrongPassword(password)){
+        message.classList.remove('d-none');
+        message.classList.add('d-block');
+        message.style.color = 'red'
+        message.style.textAlign = 'left'
+        message.innerHTML = 'Password must be at least 6 characters contains at least<br>. one number<br>. one Uppercase letter<br>. one Lowercase letter<br>. one special character'
+
+        return;
+    }
+
     if (isEmailExist(email)){
         message.classList.remove('d-none');
         message.classList.add('d-block');
@@ -59,11 +101,6 @@ function register(){
 
         return;
     }
-
-    message.classList.remove('d-none');
-    message.classList.add('d-block');
-    message.style.color = 'green'
-    message.innerHTML = 'Success'
 
     var user = {
         name: name,
@@ -75,14 +112,21 @@ function register(){
 
     localStorage.setItem('users', JSON.stringify(users));
 
-    clearRegister();
+        // message.classList.remove('d-none');
+    // message.classList.add('d-block');
+    // message.style.color = 'green'
+    // message.innerHTML = 'Success'
+    
+    // clearRegister();
+
+    window.location.href = 'index.html';
 }
 
 // Login function
 
-function searchEmail(email,password){
+function searchEmail(email){
     for(var i = 0; i < users.length; i++){
-        if(users[i].email == email && users[i].password == password){
+        if(users[i].email == email){
             return i;
         }
     }
@@ -108,7 +152,16 @@ function login(){
         message.classList.remove('d-none');
         message.classList.add('d-block');
         message.style.color = 'red'
-        message.innerHTML = 'email or password is incorrect'
+        message.innerHTML = 'email is incorrect'
+
+        return;
+    }
+
+    if (users[idx].password != password){
+        message.classList.remove('d-none');
+        message.classList.add('d-block');
+        message.style.color = 'red'
+        message.innerHTML = 'password is incorrect'
 
         return;
     }
